@@ -19,5 +19,5 @@ use App\Http\Controllers\TaskController;
 
 Route::get('/', [TaskController::class, 'index']);
 Route::post('/', [TaskController::class, 'store']);
-Route::post('/update-task', [TaskController::class, 'update']);
+Route::post('/update/{id}',  [TaskController::class, 'update'])->name('task.update');
 Route::delete('/{id}', [TaskController::class, 'destroy'])->name('task.destroy');

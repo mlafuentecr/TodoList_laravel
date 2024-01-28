@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\task;
+use App\Models\Task; // Add the missing import statement for the Task model
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -12,7 +12,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $task['tasks'] = Task::all(); // ['tasks' => Task::all()
+        $task['tasks'] = Task::all();
         return view('task.index', $task);
     }
 
@@ -51,15 +51,16 @@ class TaskController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storage. $request->isChecked
      */
-    public function update(Request $request, task $task)
+    public function update( Request $request, $id)
     {
-        $task = Task::find($request->id);
-        $task->completed = $request->isChecked;
-        $task->save();
-    
-        return response()->json(['success' => 'Task updated successfully.']);
+        $task = Task::findOrFail($id);
+        if ($task->update(['is_done' => $request->isChecked ? 0 : 1])) {
+            return response()->json(['success' => 'Task updated successfully.']);
+        } else {
+            return response()->json(['error' => 'Failed to update task.']);
+        }
     }
 
     /**

@@ -3,8 +3,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="assets/app--F_yBtMa.css">
-  <script src='assets/app-j40WxhbM.js'></script>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  @vite('resources/js/app.js')
+  @vite('resources/css/app.css')
+
   <title>TODO LIST LARAVEL</title>
 </head>
 <body class="bg-indigo-300 ">
@@ -26,13 +28,13 @@
             </div>
         </form>
 
-        <ul class="divide-y divide-gray-200 px-4">
+        <ul class="list-of-task divide-y divide-gray-200 px-4">
             @foreach ($tasks as $task)
             <?php $isChecked = $task->is_done; ?>
 
             <li class="py-4">
                 <div class="flex items-center justify-between  w-auto px-4">
-                    <input id="todo1" name="todo1" type="checkbox" <?php echo $isChecked ? 'checked' : ''; ?>
+                    <input class="todoCheck"  data-id ="{{ $task->id }}" name="todo1" type="checkbox"  <?php echo $isChecked ? 'checked' : ''; ?>
                         class="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded">
                     <label for="todo1" class="ml-3 flex text-gray-900  w-full justify-between align-middle items-center">
                         <span class="text-lg font-medium ">{{ $task->task }}</span>
